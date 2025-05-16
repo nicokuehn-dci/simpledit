@@ -1,0 +1,71 @@
+{
+  "appName": "Editor de Texto",
+  "dashboard": {
+    "title": "Panel de Control",
+    "quickStart": "Inicio Rápido",
+    "recentFiles": "Abiertos Recientemente",
+    "newFile": "Nuevo Archivo",
+    "openFile": "Abrir Archivo",
+    "templates": "Crear desde Plantilla",
+    "settings": "Configuración"
+  },
+  "editor": {
+    "newFile": "Nuevo Archivo",
+    "openFile": "Abrir Archivo",
+    "saveFile": "Guardar",
+    "saveAs": "Guardar como",
+    "find": "Buscar",
+    "replace": "Reemplazar",
+    "goToLine": "Ir a la línea",
+    "wordCount": "Recuento de palabras: {{count}}"
+  },
+  "templates": {
+    "html": "Documento HTML",
+    "css": "Hoja de Estilo CSS",
+    "javascript": "Archivo JavaScript",
+    "python": "Script Python",
+    "markdown": "Documento Markdown",
+    "text": "Texto Plano"
+  },
+  "settings": {
+    "appearance": "Apariencia",
+    "language": "Idioma",
+    "theme": "Tema",
+    "fontSize": "Tamaño de Fuente",
+    "fontFamily": "Familia de Fuente",
+    "tabSize": "Tamaño de Tabulación",
+    "lineWrapping": "Ajuste de Línea",
+    "showLineNumbers": "Mostrar Números de Línea",
+    "autoSave": "Guardado Automático"
+  },
+  "themes": {
+    "dark": "Oscuro",
+    "light": "Claro",
+    "highContrast": "Alto Contraste"
+  },
+  "languages": {
+    "en": "Inglés",
+    "de": "Alemán",
+    "fr": "Francés",
+    "es": "Español"
+  },
+  "aiAssistant": {
+    "title": "Asistente de IA",
+    "toggleTitle": "Abrir Asistente de IA",
+    "complete": "Completar",
+    "completeTooltip": "Continuar o completar su texto",
+    "review": "Revisar",
+    "reviewTooltip": "Obtener comentarios sobre su código",
+    "format": "Formatear",
+    "formatTooltip": "Mejorar el formato y estilo",
+    "explain": "Explicar",
+    "explainTooltip": "Obtener una explicación del código",
+    "temperature": "Creatividad:",
+    "generate": "Generar",
+    "processing": "Procesando...",
+    "insertResult": "Insertar",
+    "poweredBy": "Impulsado por",
+    "noTextSelected": "Por favor seleccione texto en el editor",
+    "error": "Lo sentimos, algo salió mal"
+  }
+}

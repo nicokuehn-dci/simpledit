@@ -1,0 +1,289 @@
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.settings-panel {
+  background-image: linear-gradient(135deg, rgba(50, 50, 50, 0.95), rgba(30, 30, 30, 0.95));
+  color: var(--ui-fg);
+  border-radius: 12px;
+  width: 450px;
+  max-width: 90%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 107, 0, 0.4);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 107, 0, 0.2);
+  backdrop-filter: blur(15px);
+  animation: settings-appear 0.3s ease-out;
+  position: relative;
+}
+
+.settings-panel::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255, 107, 0, 0.2), transparent 70%);
+  opacity: 0.6;
+  z-index: -1;
+  animation: pulse 3s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes settings-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.settings-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-image: linear-gradient(to right, rgba(255, 107, 0, 0.1), transparent);
+  position: relative;
+}
+
+.settings-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 150px;
+  height: 2px;
+  background: var(--accent-gradient);
+  box-shadow: 0 0 15px 2px rgba(255, 107, 0, 0.7);
+  filter: blur(0.5px);
+}
+
+.settings-header h2 {
+  margin: 0;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ui-fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.close-button:hover {
+  background-color: var(--ui-hover);
+}
+
+.settings-content {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.settings-group {
+  margin-bottom: 20px;
+}
+
+.settings-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #ff6b00; /* Orange Farbe für Label */
+}
+
+.settings-group select,
+.settings-group input[type="text"] {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  background-color: rgba(30, 30, 30, 0.6);
+  color: var(--ui-fg);
+  font-size: 14px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 8px rgba(255, 107, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.settings-group select:focus,
+.settings-group input[type="text"]:focus {
+  outline: none;
+  border-color: #ff6b00; /* Orange Farbe für Fokus */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 0 12px rgba(255, 107, 0, 0.6);
+  background-color: rgba(40, 40, 40, 0.7);
+}
+
+.checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 5px 0;
+  transition: transform 0.1s ease;
+}
+
+.checkbox-label:hover {
+  transform: translateX(2px);
+}
+
+.checkbox-label input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: #ff6b00; /* Orange Farbe für Checkboxen */
+  width: 18px;
+  height: 18px;
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.6);
+  border-radius: 3px;
+  position: relative;
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+  animation: checkbox-glow 0.3s ease;
+}
+
+@keyframes checkbox-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 107, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 107, 0, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 107, 0, 0.6);
+  }
+}
+
+.range-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  padding: 5px 0;
+}
+
+input[type="range"] {
+  flex: 1;
+  appearance: none;
+  height: 5px;
+  background: linear-gradient(to right, rgba(255, 107, 0, 0.8), rgba(255, 107, 0, 0.4));
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.4);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--accent-gradient);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(255, 107, 0, 0.6);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: var(--accent-gradient);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(255, 107, 0, 0.6);
+  border: none;
+}
+
+.range-value {
+  min-width: 40px;
+  text-align: right;
+}
+
+.settings-footer {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--ui-border);
+}
+
+.save-button {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-image: var(--accent-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 0 0 15px rgba(255, 107, 0, 0.5);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.save-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 50%);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.5s ease-out;
+}
+
+.save-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(255, 107, 0, 0.7);
+}
+
+.save-button:hover::before {
+  opacity: 1;
+  transform: scale(1);
+  animation: ripple 1s infinite linear;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.8) rotate(0deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.2) rotate(360deg);
+    opacity: 0;
+  }
+}

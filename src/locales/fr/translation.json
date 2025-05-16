@@ -1,0 +1,71 @@
+{
+  "appName": "Éditeur de Texte",
+  "dashboard": {
+    "title": "Tableau de Bord",
+    "quickStart": "Démarrage Rapide",
+    "recentFiles": "Récemment Ouverts",
+    "newFile": "Nouveau Fichier",
+    "openFile": "Ouvrir un Fichier",
+    "templates": "Créer à partir d'un Modèle",
+    "settings": "Paramètres"
+  },
+  "editor": {
+    "newFile": "Nouveau Fichier",
+    "openFile": "Ouvrir un Fichier",
+    "saveFile": "Enregistrer",
+    "saveAs": "Enregistrer sous",
+    "find": "Rechercher",
+    "replace": "Remplacer",
+    "goToLine": "Aller à la Ligne",
+    "wordCount": "Nombre de mots: {{count}}"
+  },
+  "templates": {
+    "html": "Document HTML",
+    "css": "Feuille de Style CSS",
+    "javascript": "Fichier JavaScript",
+    "python": "Script Python",
+    "markdown": "Document Markdown",
+    "text": "Texte Brut"
+  },
+  "settings": {
+    "appearance": "Apparence",
+    "language": "Langue",
+    "theme": "Thème",
+    "fontSize": "Taille de Police",
+    "fontFamily": "Famille de Police",
+    "tabSize": "Taille de Tabulation",
+    "lineWrapping": "Retour à la Ligne",
+    "showLineNumbers": "Afficher les Numéros de Ligne",
+    "autoSave": "Sauvegarde Automatique"
+  },
+  "themes": {
+    "dark": "Sombre",
+    "light": "Clair",
+    "highContrast": "Contraste Élevé"
+  },
+  "languages": {
+    "en": "Anglais",
+    "de": "Allemand",
+    "fr": "Français",
+    "es": "Espagnol"
+  },
+  "aiAssistant": {
+    "title": "Assistant IA",
+    "toggleTitle": "Ouvrir l'Assistant IA",
+    "complete": "Compléter",
+    "completeTooltip": "Continuer ou compléter votre texte",
+    "review": "Réviser",
+    "reviewTooltip": "Obtenir des commentaires sur votre code",
+    "format": "Formater",
+    "formatTooltip": "Améliorer le formatage et le style",
+    "explain": "Expliquer",
+    "explainTooltip": "Obtenir une explication du code",
+    "temperature": "Créativité:",
+    "generate": "Générer",
+    "processing": "Traitement en cours...",
+    "insertResult": "Insérer",
+    "poweredBy": "Propulsé par",
+    "noTextSelected": "Veuillez sélectionner du texte dans l'éditeur",
+    "error": "Désolé, quelque chose s'est mal passé"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "appName": "Texteditor",
+  "dashboard": {
+    "title": "Dashboard",
+    "quickStart": "Schnellstart",
+    "recentFiles": "Zuletzt geöffnet",
+    "newFile": "Neue Datei",
+    "openFile": "Datei öffnen",
+    "templates": "Aus Vorlage erstellen",
+    "settings": "Einstellungen"
+  },
+  "editor": {
+    "newFile": "Neue Datei",
+    "openFile": "Datei öffnen",
+    "saveFile": "Speichern",
+    "saveAs": "Speichern unter",
+    "find": "Suchen",
+    "replace": "Ersetzen",
+    "goToLine": "Gehe zu Zeile",
+    "wordCount": "Wortanzahl: {{count}}"
+  },
+  "templates": {
+    "html": "HTML-Dokument",
+    "css": "CSS-Stylesheet",
+    "javascript": "JavaScript-Datei",
+    "python": "Python-Skript",
+    "markdown": "Markdown-Dokument",
+    "text": "Klartext"
+  },
+  "settings": {
+    "appearance": "Aussehen",
+    "language": "Sprache",
+    "theme": "Thema",
+    "fontSize": "Schriftgröße",
+    "fontFamily": "Schriftart",
+    "tabSize": "Tabulator-Größe",
+    "lineWrapping": "Zeilenumbruch",
+    "showLineNumbers": "Zeilennummern anzeigen",
+    "autoSave": "Automatisches Speichern"
+  },
+  "themes": {
+    "dark": "Dunkel",
+    "light": "Hell",
+    "highContrast": "Hoher Kontrast"
+  },
+  "languages": {
+    "en": "Englisch",
+    "de": "Deutsch",
+    "fr": "Französisch",
+    "es": "Spanisch"
+  },
+  "aiAssistant": {
+    "title": "KI-Assistent",
+    "toggleTitle": "KI-Assistent öffnen",
+    "complete": "Vervollständigen",
+    "completeTooltip": "Text fortsetzen oder vervollständigen",
+    "review": "Überprüfen",
+    "reviewTooltip": "Feedback zu Ihrem Code erhalten",
+    "format": "Formatieren",
+    "formatTooltip": "Formatierung und Stil verbessern",
+    "explain": "Erklären",
+    "explainTooltip": "Eine Erläuterung des Codes erhalten",
+    "temperature": "Kreativität:",
+    "generate": "Generieren",
+    "processing": "Wird verarbeitet...",
+    "insertResult": "Einfügen",
+    "poweredBy": "Unterstützt von",
+    "noTextSelected": "Bitte wählen Sie Text im Editor aus",
+    "error": "Entschuldigung, etwas ist schiefgelaufen"
+  }
+}

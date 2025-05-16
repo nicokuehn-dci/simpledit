@@ -1,0 +1,71 @@
+{
+  "appName": "Text Editor",
+  "dashboard": {
+    "title": "Dashboard",
+    "quickStart": "Quick Start",
+    "recentFiles": "Recently Opened",
+    "newFile": "New File",
+    "openFile": "Open File",
+    "templates": "Create from Template",
+    "settings": "Settings"
+  },
+  "editor": {
+    "newFile": "New File",
+    "openFile": "Open File",
+    "saveFile": "Save",
+    "saveAs": "Save As",
+    "find": "Find",
+    "replace": "Replace",
+    "goToLine": "Go to Line",
+    "wordCount": "Word Count: {{count}}"
+  },
+  "templates": {
+    "html": "HTML Document",
+    "css": "CSS Stylesheet",
+    "javascript": "JavaScript File",
+    "python": "Python Script",
+    "markdown": "Markdown Document",
+    "text": "Plain Text"
+  },
+  "settings": {
+    "appearance": "Appearance",
+    "language": "Language",
+    "theme": "Theme",
+    "fontSize": "Font Size",
+    "fontFamily": "Font Family",
+    "tabSize": "Tab Size",
+    "lineWrapping": "Line Wrapping",
+    "showLineNumbers": "Show Line Numbers",
+    "autoSave": "Auto Save"
+  },
+  "themes": {
+    "dark": "Dark",
+    "light": "Light",
+    "highContrast": "High Contrast"
+  },
+  "languages": {
+    "en": "English",
+    "de": "German",
+    "fr": "French",
+    "es": "Spanish"
+  },
+  "aiAssistant": {
+    "title": "AI Assistant",
+    "toggleTitle": "Open AI Assistant",
+    "complete": "Complete",
+    "completeTooltip": "Continue or complete your text",
+    "review": "Review",
+    "reviewTooltip": "Get feedback on your code",
+    "format": "Format",
+    "formatTooltip": "Improve formatting and style",
+    "explain": "Explain",
+    "explainTooltip": "Get an explanation of the code",
+    "temperature": "Creativity:",
+    "generate": "Generate",
+    "processing": "Processing...",
+    "insertResult": "Insert",
+    "poweredBy": "Powered by",
+    "noTextSelected": "Please select text in the editor",
+    "error": "Sorry, something went wrong"
+  }
+}

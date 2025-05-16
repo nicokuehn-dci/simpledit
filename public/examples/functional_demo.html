@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functional Programming in JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            color: #0066cc;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #0099cc;
+            margin-top: 30px;
+        }
+        
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #0066cc;
+        }
+        
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .example {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        
+        .output {
+            background-color: #edf6ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #0052a3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functional Programming in JavaScript</h1>
+    
+    <p>
+        This page demonstrates various functional programming concepts in JavaScript.
+        Click the "Run Examples" button to see the results in the console.
+    </p>
+    
+    <button id="runBtn">Run Examples</button>
+    
+    <h2>Pure Functions</h2>
+    <div class="example">
+        <p>Pure functions always return the same output for the same input and have no side effects.</p>
+        <pre><code>// Pure function
+function add(a, b) {
+    return a + b;
+}
+
+// Impure function (has side effects)
+let total = 0;
+function addToTotal(value) {
+    total += value;
+    return total;
+}</code></pre>
+        <div class="output" id="pureOutput"></div>
+    </div>
+    
+    <h2>Higher-Order Functions</h2>
+    <div class="example">
+        <p>Functions that take other functions as arguments or return functions.</p>
+        <pre><code>// Higher-order function
+function multiplier(factor) {
+    return function(number) {
+        return number * factor;
+    };
+}
+
+const double = multiplier(2);
+const triple = multiplier(3);</code></pre>
+        <div class="output" id="higherOrderOutput"></div>
+    </div>
+    
+    <h2>Map, Filter, Reduce</h2>
+    <div class="example">
+        <p>Core functional programming operations on collections.</p>
+        <pre><code>const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// Map: transform each element
+const squared = numbers.map(x => x * x);
+
+// Filter: keep elements that pass a test
+const evens = numbers.filter(x => x % 2 === 0);
+
+// Reduce: combine elements into a single value
+const sum = numbers.reduce((acc, x) => acc + x, 0);</code></pre>
+        <div class="output" id="mapFilterReduceOutput"></div>
+    </div>
+    
+    <h2>Function Composition</h2>
+    <div class="example">
+        <p>Combining multiple functions together.</p>
+        <pre><code>const compose = (...fns) => x => 
+    fns.reduceRight((value, fn) => fn(value), x);
+
+const addOne = x => x + 1;
+const double = x => x * 2;
+const square = x => x * x;
+
+const transform = compose(square, double, addOne);
+// transform(3) = square(double(addOne(3)))
+//              = square(double(4))
+//              = square(8)
+//              = 64</code></pre>
+        <div class="output" id="compositionOutput"></div>
+    </div>
+    
+    <h2>Immutability</h2>
+    <div class="example">
+        <p>Avoiding changes to data after it's created.</p>
+        <pre><code>// Mutable approach
+const mutableArray = [1, 2, 3];
+mutableArray.push(4); // Modifies the original array
+
+// Immutable approach
+const immutableArray = [1, 2, 3];
+const newArray = [...immutableArray, 4]; // Creates a new array</code></pre>
+        <div class="output" id="immutabilityOutput"></div>
+    </div>
+    
+    <script>
+        document.getElementById('runBtn').addEventListener('click', function() {
+            // Pure Functions example
+            const pureOutput = document.getElementById('pureOutput');
+            pureOutput.innerHTML = `add(5, 3) = ${add(5, 3)}<br>`;
+            pureOutput.innerHTML += `add(5, 3) called again = ${add(5, 3)}<br>`;
+            
+            total = 0;
+            pureOutput.innerHTML += `addToTotal(5) = ${addToTotal(5)}<br>`;
+            pureOutput.innerHTML += `addToTotal(5) called again = ${addToTotal(5)} (side effect)`;
+            
+            // Higher-Order Functions
+            const higherOrderOutput = document.getElementById('higherOrderOutput');
+            higherOrderOutput.innerHTML = `double(7) = ${double(7)}<br>`;
+            higherOrderOutput.innerHTML += `triple(7) = ${triple(7)}`;
+            
+            // Map, Filter, Reduce
+            const mapFilterReduceOutput = document.getElementById('mapFilterReduceOutput');
+            mapFilterReduceOutput.innerHTML = `Original: ${numbers.join(', ')}<br>`;
+            mapFilterReduceOutput.innerHTML += `Squared: ${squared.join(', ')}<br>`;
+            mapFilterReduceOutput.innerHTML += `Evens: ${evens.join(', ')}<br>`;
+            mapFilterReduceOutput.innerHTML += `Sum: ${sum}`;
+            
+            // Function Composition
+            const compositionOutput = document.getElementById('compositionOutput');
+            compositionOutput.innerHTML = `transform(3) = ${transform(3)}<br>`;
+            compositionOutput.innerHTML += `Step by step:<br>`;
+            compositionOutput.innerHTML += `1. addOne(3) = ${addOne(3)}<br>`;
+            compositionOutput.innerHTML += `2. double(4) = ${double(4)}<br>`;
+            compositionOutput.innerHTML += `3. square(8) = ${square(8)}`;
+            
+            // Immutability
+            const immutabilityOutput = document.getElementById('immutabilityOutput');
+            immutabilityOutput.innerHTML = `Original mutableArray: ${mutableArray.join(', ')}<br>`;
+            immutabilityOutput.innerHTML += `After push: ${mutableArray.join(', ')} (modified)<br>`;
+            immutabilityOutput.innerHTML += `Original immutableArray: ${immutableArray.join(', ')}<br>`;
+            immutabilityOutput.innerHTML += `New array: ${newArray.join(', ')} (original unchanged)`;
+            
+            console.log('Examples executed!');
+        });
+        
+        // Pure Functions
+        function add(a, b) {
+            return a + b;
+        }
+        
+        let total = 0;
+        function addToTotal(value) {
+            total += value;
+            return total;
+        }
+        
+        // Higher-Order Functions
+        function multiplier(factor) {
+            return function(number) {
+                return number * factor;
+            };
+        }
+        
+        const double = multiplier(2);
+        const triple = multiplier(3);
+        
+        // Map, Filter, Reduce
+        const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const squared = numbers.map(x => x * x);
+        const evens = numbers.filter(x => x % 2 === 0);
+        const sum = numbers.reduce((acc, x) => acc + x, 0);
+        
+        // Function Composition
+        const compose = (...fns) => x => 
+            fns.reduceRight((value, fn) => fn(value), x);
+        
+        const addOne = x => x + 1;
+        const square = x => x * x;
+        
+        const transform = compose(square, double, addOne);
+        
+        // Immutability
+        const mutableArray = [1, 2, 3];
+        mutableArray.push(4);
+        
+        const immutableArray = [1, 2, 3];
+        const newArray = [...immutableArray, 4];
+    </script>
+</body>
+</html>
