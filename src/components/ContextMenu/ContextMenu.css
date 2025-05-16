@@ -1,0 +1,66 @@
+.editor-context-menu {
+  background-color: var(--background);
+  border: 1px solid var(--ui-border);
+  border-radius: 6px;
+  box-shadow: var(--ui-shadow), 0 0 15px rgba(255, 107, 0, 0.15);
+  min-width: 220px;
+  animation: contextMenuFadeIn 0.1s ease-in-out;
+  overflow: hidden;
+}
+
+@keyframes contextMenuFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.context-menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--ui-fg);
+  font-size: 15px;
+  font-family: var(--app-font);
+  cursor: pointer;
+  transition: background-color 0.1s;
+  white-space: nowrap;
+}
+
+.context-menu-item:hover {
+  background-color: var(--ui-hover);
+  color: var(--accent);
+}
+
+.context-menu-shortcut {
+  margin-left: 20px;
+  opacity: 0.6;
+  font-size: 14px;
+  font-family: monospace;
+}
+
+.context-menu-separator {
+  height: 1px;
+  background-color: var(--ui-border);
+  margin: 5px 0;
+}
+
+.context-menu-group {
+  padding: 4px 0;
+}
+
+/* Ensure the context menu doesn't appear offscreen */
+.editor-context-menu.right-edge {
+  transform: translateX(-100%);
+}
+
+.editor-context-menu.bottom-edge {
+  transform: translateY(-100%);
+}
+
+.editor-context-menu.both-edges {
+  transform: translate(-100%, -100%);
+}

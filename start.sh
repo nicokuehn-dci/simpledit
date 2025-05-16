@@ -9,7 +9,7 @@ BLUE='\033[0;34m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-echo -e "${BLUE}=== Multilingual Text Editor with Groq AI ===${NC}"
+echo -e "${BLUE}=== simpledit - Multilingual Text Editor with Groq AI ===${NC}"
 
 # Navigate to the project directory
 cd "$(dirname "$0")"
@@ -110,14 +110,115 @@ fi
 # Start the FastAPI backend in the background
 echo -e "${GREEN}Starting the AI backend server...${NC}"
 echo -e "${BLUE}The API will be available at: ${GREEN}http://localhost:8000${NC}"
+
+# First, check if there's already a backend server running
+if lsof -i:8000 >/dev/null 2>&1; then
+    echo -e "${YELLOW}Backend server already running on port 8000. Stopping it...${NC}"
+    fuser -k 8000/tcp >/dev/null 2>&1
+    sleep 1
+fi
+
+# Ensure we're using the virtual environment
 source backend/venv/bin/activate
+
+# Start the backend server with improved error handling
 cd backend
-python3 app.py &
+
+# Function to check backend health
+check_backend_health() {
+    curl -s http://localhost:8000/health >/dev/null
+    return $?
+}
+
+# Configure the log file with timestamp
+log_file="../backend_server.log"
+echo "=== Backend Server Started at $(date) ===" > $log_file
+echo "Host: $(hostname)" >> $log_file
+echo "System: $(uname -a)" >> $log_file
+echo "Python: $(python3 --version)" >> $log_file
+echo "Dependencies check..." >> $log_file
+
+# Validate required packages before starting
+python3 -c "
+try:
+    import uvicorn
+    import fastapi
+    import httpx
+    import dotenv
+    import pydantic
+    print('All required packages verified.')
+except ImportError as e:
+    print(f'Error importing required package: {e}')
+    exit(1)
+" >> $log_file 2>&1
+
+# Check if validation failed and install if needed
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Missing required packages. Installing...${NC}"
+    pip install -r requirements.txt >> $log_file 2>&1
+fi
+
+# Start the server with improved error handling
+python3 app.py >> $log_file 2>&1 &
 BACKEND_PID=$!
 cd ..
 
-# Allow the backend to start
-sleep 2
+# Record the start time for timeout calculation
+start_time=$(date +%s)
+max_wait=30  # Maximum seconds to wait
+
+# Wait for backend to start and verify it's running
+echo -e "${YELLOW}Verifying backend server status...${NC}"
+started=false
+attempt=1
+
+while [ $(( $(date +%s) - start_time )) -lt $max_wait ]; do
+    if check_backend_health; then
+        echo -e "\n${GREEN}Backend server started successfully! (PID: $BACKEND_PID)${NC}"
+        started=true
+        break
+    fi
+    
+    # Check if process is still running
+    if ! ps -p $BACKEND_PID > /dev/null; then
+        echo -e "\n${RED}Backend server process terminated unexpectedly.${NC}"
+        echo -e "${YELLOW}Checking logs:${NC}"
+        tail -5 backend_server.log
+        
+        # Try to restart once if it fails on first attempt
+        if [ $attempt -eq 1 ]; then
+            echo -e "${YELLOW}Attempting to restart backend server...${NC}"
+            cd backend
+            python3 app.py > ../backend_server.log 2>&1 &
+            BACKEND_PID=$!
+            cd ..
+            attempt=2
+            sleep 2
+            continue
+        else
+            echo -e "${RED}Failed to start backend server after retry. Check backend_server.log for errors.${NC}"
+            echo -e "${YELLOW}Starting frontend anyway, but AI features will not be available.${NC}"
+            break
+        fi
+    fi
+    
+    echo -n "."
+    sleep 1
+done
+
+# Final check if we timed out
+if [ "$started" = false ]; then
+    echo -e "\n${RED}Backend server health check timed out after ${max_wait} seconds.${NC}"
+    
+    # Check if process is actually running despite health endpoint not responding
+    if ps -p $BACKEND_PID > /dev/null; then
+        echo -e "${YELLOW}Process is still running (PID: $BACKEND_PID), but health endpoint is not responding.${NC}"
+        echo -e "${YELLOW}Check backend_server.log for details. Continuing with frontend startup.${NC}"
+    else
+        echo -e "${RED}Backend process is not running. Check backend_server.log for errors.${NC}"
+        echo -e "${YELLOW}Starting frontend anyway, but AI features will not be available.${NC}"
+    fi
+fi
 
 # Start the frontend development server
 echo -e "${GREEN}Starting the frontend application...${NC}"
@@ -126,12 +227,25 @@ echo -e "${BLUE}The editor will be available at: ${GREEN}http://localhost:3000${
 # Function to handle termination
 cleanup() {
     echo -e "${YELLOW}Stopping servers...${NC}"
-    kill $BACKEND_PID 2>/dev/null
+    
+    # Kill the backend process
+    if [ ! -z "$BACKEND_PID" ]; then
+        kill $BACKEND_PID 2>/dev/null
+        wait $BACKEND_PID 2>/dev/null || true
+    fi
+    
+    # Make doubly sure the port is freed
+    if lsof -i:8000 >/dev/null 2>&1; then
+        echo -e "${YELLOW}Ensuring backend server is stopped...${NC}"
+        fuser -k 8000/tcp >/dev/null 2>&1
+    fi
+    
+    echo -e "${GREEN}All servers stopped.${NC}"
     exit 0
 }
 
-# Set up the trap for SIGINT (Ctrl+C)
-trap cleanup INT
+# Set up the trap for SIGINT (Ctrl+C) and SIGTERM
+trap cleanup INT TERM
 
 # Start React frontend
 npm start

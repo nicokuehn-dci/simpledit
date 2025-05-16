@@ -22,10 +22,11 @@
 
 .search-icon {
   position: absolute;
-  left: 10px;
+  left: 12px;
   top: 50%;
   transform: translateY(-50%);
   color: #ff6b00;
+  font-size: 16px;
   opacity: 0.8;
   filter: drop-shadow(0 0 3px rgba(255, 107, 0, 0.3));
   transition: all 0.3s ease;
@@ -38,12 +39,14 @@
 
 .search-input {
   width: 100%;
-  padding: 10px 35px;
+  padding: 12px 40px;
   border-radius: 8px;
   outline: none;
   border: 1px solid rgba(255, 107, 0, 0.3);
   background-color: rgba(40, 40, 40, 0.6);
   color: var(--ui-fg);
+  font-size: 16px;
+  font-family: var(--app-font);
   box-shadow: 0 0 8px rgba(255, 107, 0, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
 }

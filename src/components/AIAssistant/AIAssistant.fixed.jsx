@@ -179,15 +179,6 @@ const AIAssistant = ({ isDarkMode, editorRef, fileName, insertTextAtCursor }) =>
   const toggleAssistant = () => {
     setIsOpen(prev => !prev);
     setShowProactiveSuggestion(false);
-    
-    // Trigger a window resize event to help Monaco Editor recalculate hit testing areas
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-      // If there's an editor reference, explicitly trigger layout recalculation
-      if (editorRef?.current) {
-        editorRef.current.layout();
-      }
-    }, 300);
   };
 
   // Format message with code blocks for display
@@ -213,19 +204,7 @@ const AIAssistant = ({ isDarkMode, editorRef, fileName, insertTextAtCursor }) =>
                 {t('aiAssistant.insert')}
               </button>
               <button
-                onClick={(e) => {
-                  navigator.clipboard.writeText(part);
-                  // Show temporary feedback
-                  const button = e.currentTarget;
-                  const originalText = button.textContent;
-                  button.textContent = '✓ ' + t('aiAssistant.copy');
-                  button.classList.add('copied');
-                  
-                  setTimeout(() => {
-                    button.textContent = originalText;
-                    button.classList.remove('copied');
-                  }, 2000);
-                }}
+                onClick={() => navigator.clipboard.writeText(part)}
                 title={t('aiAssistant.copyCode')}
               >
                 {t('aiAssistant.copy')}
@@ -240,25 +219,7 @@ const AIAssistant = ({ isDarkMode, editorRef, fileName, insertTextAtCursor }) =>
   // Handle inserting code into editor
   const handleInsertCode = (code) => {
     if (insertTextAtCursor && code) {
-      // Make sure code has proper line endings
-      const formattedCode = code.replace(/\r\n/g, '\n');
-      insertTextAtCursor(formattedCode);
-      
-      // Show a temporary insertion confirmation
-      setMessages(prevMessages => [
-        ...prevMessages, 
-        {
-          id: Date.now(),
-          sender: 'assistant',
-          text: t('aiAssistant.codeInserted'),
-          timestamp: new Date().toISOString(),
-        }
-      ]);
-      
-      // Close the assistant after a brief delay
-      setTimeout(() => {
-        setIsOpen(false);
-      }, 1500);
+      insertTextAtCursor(code);
     }
   };
 
@@ -357,14 +318,6 @@ const AIAssistant = ({ isDarkMode, editorRef, fileName, insertTextAtCursor }) =>
         className={`ai-toggle-button ${isDarkMode ? 'dark' : ''}`}
         onClick={toggleAssistant}
         title={t('aiAssistant.toggleAssistant')}
-        style={{ 
-          position: 'fixed',
-          right: '20px',
-          left: 'auto',
-          bottom: '20px',
-          zIndex: 100,
-          pointerEvents: 'auto' /* Ensures click events are properly handled */
-        }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
           <path fill="none" d="M0 0h24v24H0z"/>
@@ -374,16 +327,7 @@ const AIAssistant = ({ isDarkMode, editorRef, fileName, insertTextAtCursor }) =>
       
       {/* Proactive suggestion bubble */}
       {showProactiveSuggestion && !isOpen && (
-        <div 
-          className={`ai-proactive-suggestion ${isDarkMode ? 'dark' : ''}`}
-          style={{ 
-            position: 'fixed',
-            bottom: '80px',
-            right: '20px',
-            left: 'auto',
-            zIndex: 999
-          }}
-        >
+        <div className={`ai-proactive-suggestion ${isDarkMode ? 'dark' : ''}`}>
           <p>{t('aiAssistant.proactiveSuggestion')}</p>
           <div className="suggestion-actions">
             <button onClick={toggleAssistant}>{t('aiAssistant.analyze')}</button>
@@ -447,19 +391,7 @@ const AIAssistant = ({ isDarkMode, editorRef, fileName, insertTextAtCursor }) =>
                   {message.sender === 'assistant' && (
                     <div className="message-actions">
                       <button 
-                        onClick={(e) => {
-                          navigator.clipboard.writeText(message.text);
-                          // Show temporary feedback
-                          const button = e.currentTarget;
-                          const originalText = button.textContent;
-                          button.textContent = '✓ ' + t('aiAssistant.copy');
-                          button.classList.add('copied');
-                          
-                          setTimeout(() => {
-                            button.textContent = originalText;
-                            button.classList.remove('copied');
-                          }, 2000);
-                        }}
+                        onClick={() => navigator.clipboard.writeText(message.text)}
                         title={t('aiAssistant.copyResponse')}
                       >
                         {t('aiAssistant.copy')}

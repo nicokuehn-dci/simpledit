@@ -1,6 +1,6 @@
 {
-  "short_name": "Text Editor",
-  "name": "Multilingual Text Editor",
+  "short_name": "SimpleEdit",
+  "name": "SimpleEdit - Multilingual Text Editor",
   "icons": [
     {
       "src": "favicon.ico",

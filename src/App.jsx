@@ -4,6 +4,8 @@ import Editor from './components/Editor/Editor';
 import SearchBar from './components/SearchReplace/SearchBar';
 import Settings from './components/Settings/Settings';
 import AIAssistant from './components/AIAssistant';
+import MenuBar from './components/MenuBar';
+import Terminal from './components/Terminal';
 import { ThemeProvider } from './utils/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import './App.css';
@@ -18,6 +20,24 @@ function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [lastSaved, setLastSaved] = useState(null);
   const editorRef = useRef(null);
+  
+  // Show/Hide AI Assistant
+  const [showAIAssistant, setShowAIAssistant] = useState(true);
+  const toggleAIAssistant = () => {
+    setShowAIAssistant(!showAIAssistant);
+  };
+  
+  // Show/Hide Terminal
+  const [showTerminal, setShowTerminal] = useState(false);
+  const toggleTerminal = () => {
+    setShowTerminal(!showTerminal);
+    // Resize editor after showing/hiding terminal
+    setTimeout(() => {
+      if (editorRef.current) {
+        editorRef.current.layout();
+      }
+    }, 300);
+  };
   
   // Handle file open
   const handleFileOpen = (file) => {
@@ -67,12 +87,32 @@ function App() {
       const id = { major: 1, minor: 1 };
       const op = { identifier: id, range: selection, text: text, forceMoveMarkers: true };
       editor.executeEdits("ai-assistant", [op]);
+      editor.focus(); // Return focus to the editor
     }
   };
 
   // Get the editor reference from the Editor component
   const handleEditorReady = (editor) => {
     editorRef.current = editor;
+    
+    // Add window resize handler to ensure editor layout is recalculated
+    const handleResize = () => {
+      if (editorRef.current) {
+        // Small timeout to allow other DOM changes to complete
+        setTimeout(() => {
+          editorRef.current.layout();
+        }, 0);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    // Trigger initial layout
+    handleResize();
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   };
 
   // Save file
@@ -148,6 +188,137 @@ function App() {
     };
   }, [showSearch, showSettings, saveFile]);
 
+  // Save As functionality
+  const saveFileAs = useCallback(() => {
+    if (!currentFile) return;
+    
+    // Prompt user for a new file name
+    const newFileName = prompt(t('editor.saveAsPrompt'), currentFile.name);
+    
+    if (!newFileName) return; // User canceled
+    
+    // Update the current file name
+    setCurrentFile(prevFile => ({
+      ...prevFile,
+      name: newFileName
+    }));
+    
+    // Create a blob with the content
+    const blob = new Blob([currentFile.content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    
+    // Create a temporary link element for download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = newFileName;
+    
+    // Trigger the download
+    document.body.appendChild(a);
+    a.click();
+    
+    // Clean up
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    // Update last saved timestamp
+    setLastSaved(new Date());
+  }, [currentFile, t]);
+  
+  // Export file to different formats
+  const exportFile = useCallback((format) => {
+    if (!currentFile || !editorRef.current) return;
+    
+    if (format === 'pdf') {
+      alert(t('editor.pdfExportNotImplemented'));
+      // Here you would integrate with PDF generation library
+      // or send to backend for conversion
+    } else if (format === 'html') {
+      // Simple HTML export
+      const content = currentFile.content;
+      const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>${currentFile.name}</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.5;
+      margin: 2em;
+    }
+    pre {
+      background-color: #f5f5f5;
+      padding: 1em;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>${currentFile.name}</h1>
+  <pre>${content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+</body>
+</html>`;
+      
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${currentFile.name}.html`;
+      
+      document.body.appendChild(a);
+      a.click();
+      
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  }, [currentFile, editorRef, t]);
+  
+  // Open file using a file input 
+  const openFile = useCallback(() => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    
+    input.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const content = event.target.result;
+        
+        // Determine language based on file extension
+        const extension = file.name.split('.').pop().toLowerCase();
+        let language = 'plaintext';
+        
+        switch(extension) {
+          case 'js': language = 'javascript'; break;
+          case 'ts': language = 'typescript'; break;
+          case 'py': language = 'python'; break;
+          case 'html': language = 'html'; break;
+          case 'css': language = 'css'; break;
+          case 'json': language = 'json'; break;
+          case 'md': language = 'markdown'; break;
+          // Add more languages as needed
+          default: language = 'plaintext';
+        }
+        
+        setCurrentFile({
+          name: file.name,
+          content: content,
+          language: language
+        });
+        
+        setShowDashboard(false);
+      };
+      
+      reader.readAsText(file);
+    });
+    
+    input.click();
+  }, []);
+  
   return (
     <ThemeProvider>
       <div className="App">
@@ -159,6 +330,28 @@ function App() {
           />
         ) : (
           <div className="editor-view">
+            {/* Main Menu Bar */}
+            <MenuBar
+              editorRef={editorRef}
+              currentFile={currentFile}
+              onSave={saveFile}
+              onSaveAs={saveFileAs}
+              onNewFile={() => handleNewFile({
+                name: 'untitled.txt',
+                content: '',
+                language: 'plaintext'
+              })}
+              onOpenFile={openFile}
+              onExportFile={exportFile}
+              handleFindReplace={toggleSearch}
+              layoutOptions={{
+                toggleAIAssistant: toggleAIAssistant,
+                toggleTerminal: toggleTerminal,
+                toggleSidebar: () => console.log("Sidebar not implemented yet")
+              }}
+            />
+            
+            {/* Legacy Toolbar - can be removed later when Menu is complete */}
             <div className="toolbar">
               <button onClick={backToDashboard} className="toolbar-button">
                 <FiChevronLeft /> {t('dashboard.title')}
@@ -198,13 +391,17 @@ function App() {
               onEditorReady={handleEditorReady}
             />
 
-            {!showDashboard && (
+            {showAIAssistant && !showDashboard && (
               <AIAssistant 
                 editorRef={editorRef}
                 language={currentFile?.language || 'plaintext'}
-                onInsertText={handleInsertAIText}
+                fileName={currentFile?.name || 'untitled.txt'}
+                insertTextAtCursor={handleInsertAIText}
               />
             )}
+            
+            {/* Terminal Component */}
+            <Terminal visible={showTerminal} />
           </div>
         )}
         

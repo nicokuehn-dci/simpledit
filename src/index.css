@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Smooch Sans';
+  src: url('../Fonts/Smooch_Sans/SmoochSans-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900; /* Variable font weight range */
+  font-style: normal;
+}
+
 html, body {
   margin: 0;
   padding: 0;

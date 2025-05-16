@@ -1,0 +1,135 @@
+.menu-bar {
+  display: flex;
+  background-color: var(--ui-bg);
+  background-image: var(--ui-bg-gradient);
+  border-bottom: 1px solid var(--ui-border);
+  padding: 0;
+  height: 32px;
+  user-select: none;
+  position: relative;
+  z-index: 20; /* Higher than toolbar */
+}
+
+.menu-container {
+  position: relative;
+}
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: var(--ui-fg);
+  font-size: 15px;
+  padding: 0 14px;
+  height: 100%;
+  cursor: pointer;
+  font-family: var(--app-font);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.menu-button:hover {
+  background-color: var(--ui-hover);
+  color: var(--accent);
+}
+
+.menu-button.active {
+  background-color: var(--ui-hover);
+  color: var(--accent);
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.3);
+}
+
+.menu-icon {
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+.menu-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background-color: var(--background);
+  border: 1px solid var(--ui-border);
+  border-top: none;
+  box-shadow: var(--ui-shadow), 0 0 15px rgba(255, 107, 0, 0.15);
+  z-index: 30;
+  animation: fadeIn 0.1s ease-in-out;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 14px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--ui-fg);
+  font-size: 15px;
+  font-family: var(--app-font);
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.menu-item:hover {
+  background-color: var(--ui-hover);
+  color: var(--accent);
+}
+
+.item-icon {
+  margin-right: 10px;
+  font-size: 16px;
+  color: var(--accent);
+  filter: drop-shadow(0 0 2px rgba(255, 107, 0, 0.4));
+}
+
+.menu-separator {
+  height: 1px;
+  background-color: var(--ui-border);
+  margin: 4px 0;
+}
+
+/* Checkbox-style menu items */
+.checkbox-item {
+  position: relative;
+}
+
+.checkbox-item.checked::after {
+  content: '✓';
+  position: absolute;
+  right: 12px;
+  color: var(--accent);
+}
+
+/* Keyboard shortcuts display */
+.keyboard-shortcut {
+  margin-left: auto;
+  opacity: 0.6;
+  font-size: 14px;
+  font-family: monospace;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .menu-bar {
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+  
+  .menu-button {
+    padding: 0 10px;
+    font-size: 14px;
+  }
+  
+  .menu-dropdown {
+    min-width: 200px;
+  }
+}

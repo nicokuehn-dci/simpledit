@@ -1,4 +1,4 @@
-# Simpledit - Multilingual Text Editor
+# simpledit - Multilingual Text Editor
 
 A modern, feature-rich text editor built with React, featuring dark mode, multilingual support, and functional programming concepts.
 
