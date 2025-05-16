@@ -1,0 +1,48 @@
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.editor-status-bar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 8px 15px;
+  font-size: 12px;
+  border-top: 1px solid rgba(255, 107, 0, 0.2);
+  color: var(--ui-fg);
+  background-image: linear-gradient(to top, rgba(255, 107, 0, 0.08), transparent);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.status-item {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: rgba(255, 107, 0, 0.1);
+  border: 1px solid rgba(255, 107, 0, 0.15);
+  box-shadow: 0 0 8px rgba(255, 107, 0, 0.2);
+}
+
+/* Custom styling for Monaco Editor */
+.monaco-editor {
+  padding: 5px 0;
+}
+
+/* Override Monaco's default styles */
+.monaco-editor .margin {
+  background-color: var(--editor-bg) !important;
+}
+
+.monaco-editor .editor-scrollable {
+  background-color: var(--editor-bg) !important;
+}
+
+/* Ensure the editor fills the container */
+.monaco-editor-container {
+  height: 100%;
+}

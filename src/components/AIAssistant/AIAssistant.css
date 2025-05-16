@@ -1,0 +1,204 @@
+.ai-assistant-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  z-index: 1000; /* Ensure it's above other UI elements */
+  font-size: 24px;
+  outline: none;
+}
+
+.ai-assistant-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.ai-assistant-panel {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 400px;
+  max-width: 90vw;
+  max-height: 70vh;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  padding: 16px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ai-assistant-header {
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+  margin-bottom: 16px;
+}
+
+.ai-assistant-header h3 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+}
+
+.ai-mode-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ai-mode-button {
+  padding: 6px 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.ai-mode-button.active {
+  background-color: rgba(0, 120, 212, 0.9);
+  color: white;
+  border-color: rgba(0, 120, 212, 0.9);
+}
+
+.ai-mode-button:hover:not(.active) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.ai-assistant-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ai-assistant-controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.ai-temperature-slider {
+  flex: 1;
+}
+
+.ai-temperature-value {
+  width: 24px;
+  text-align: center;
+}
+
+.ai-action-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  background-color: #0078d4;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.ai-action-button:hover:not(:disabled) {
+  background-color: #106ebe;
+}
+
+.ai-action-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.ai-assistant-error {
+  background-color: rgba(232, 17, 35, 0.1);
+  border-left: 3px solid #e81123;
+  padding: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #e81123;
+}
+
+.ai-assistant-result {
+  flex: 1;
+  overflow: auto;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.04);
+  max-height: 300px;
+  position: relative;
+}
+
+.ai-assistant-result pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 14px;
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.ai-insert-button {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: none;
+  background-color: #107c10;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.ai-insert-button:hover {
+  background-color: #0e6b0e;
+}
+
+.ai-assistant-footer {
+  text-align: center;
+  font-size: 12px;
+  color: #666666;
+}
+
+.ai-assistant-footer a {
+  color: #0078d4;
+  text-decoration: none;
+}
+
+.ai-assistant-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .ai-assistant-panel {
+    right: 5%;
+    left: 5%;
+    width: 90%;
+  }
+  
+  .ai-mode-selector {
+    justify-content: space-between;
+  }
+  
+  .ai-mode-button {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+}

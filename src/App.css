@@ -1,0 +1,159 @@
+:root {
+  /* These variables will be set dynamically by ThemeContext.js */
+  --background: #1e1e1e;
+  --foreground: #d4d4d4;
+  --accent: #ff6b00; /* Changed from blue to orange */
+  --accent-gradient: linear-gradient(135deg, #ff8c00, #ff6b00, #ff5500);
+  --accent-glow: 0 0 20px rgba(255, 107, 0, 0.7);
+  --editor-bg: #1e1e1e;
+  --editor-fg: #d4d4d4;
+  --editor-line: #282828;
+  --editor-selection: rgba(255, 107, 0, 0.3); /* Orange selection */
+  --ui-bg: #252526;
+  --ui-bg-gradient: linear-gradient(to bottom, #2c2c2c, #252526);
+  --ui-fg: #cccccc;
+  --ui-border: #474747;
+  --ui-hover: #2a2d2e;
+  --ui-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --ui-card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  --editor-font-size: 14px; /* Added for font size control */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.App {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background-image: var(--ui-bg-gradient);
+  border-bottom: 1px solid var(--ui-border);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 10;
+}
+
+.toolbar-button {
+  background-color: transparent;
+  border: 1px solid var(--ui-border);
+  color: #ff6b00; /* Orange text */
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.toolbar-button:hover {
+  background-color: var(--ui-hover);
+  box-shadow: var(--ui-shadow), 0 0 12px rgba(255, 107, 0, 0.5);
+  transform: translateY(-1px);
+  border-color: rgba(255, 107, 0, 0.6);
+}
+
+.toolbar-button svg {
+  color: #ff6b00; /* Orange icon */
+  filter: drop-shadow(0 0 4px rgba(255, 107, 0, 0.6));
+}
+
+.file-info {
+  font-size: 14px;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.file-info::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 130%;
+  background: radial-gradient(ellipse at center, rgba(255, 107, 0, 0.4), transparent 70%);
+  filter: blur(8px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+button, select {
+  font-family: inherit;
+}
+
+/* Styling für die Last-Saved-Anzeige */
+.last-saved {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: rgba(255, 107, 0, 0.15);
+  border: 1px solid rgba(255, 107, 0, 0.4);
+  color: var(--ui-fg);
+  box-shadow: 0 0 15px rgba(255, 107, 0, 0.35);
+}
+
+.last-saved svg {
+  color: #ff6b00;
+}
+
+/* Animation for transitions */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
